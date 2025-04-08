@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+        h2 { text-align: center; color: #333; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input:focus, textarea:focus { border-color: #28a745; outline: none; }
+        .error { color: #dc3545; font-size: 12px; display: block; margin-top: 5px; }
+        .button-group { display: flex; justify-content: space-between; margin-top: 15px; }
+        button {
+            padding: 10px; border: none; background-color: #28a745; color: white;
+            font-size: 16px; cursor: pointer; border-radius: 4px; flex: 1; margin: 0 5px;
+        }
+        button:hover { background-color: #218838; }
+        button[type="reset"] { background-color: #dc3545; }
+        button[type="reset"]:hover { background-color: #c82333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Registration Form</h2>
+        <form onsubmit="return validateForm()">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName">
+            <span class="error" id="firstNameError"></span>
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName">
+            <span class="error" id="lastNameError"></span>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+            <span class="error" id="passwordError"></span>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+            <span class="error" id="emailError"></span>
+
+            <label for="mobile">Mobile Number:</label>
+            <input type="text" id="mobile" name="mobile">
+            <span class="error" id="mobileError"></span>
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address"></textarea>
+            <span class="error" id="addressError"></span>
+
+            <div class="button-group">
+                <button type="submit">Validate</button>
+                <button type="reset">Reset</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            const fields = [
+                { id: "firstName", regex: /^[A-Za-z]{2,}$/, error: "First name must be at least 2 letters." },
+                { id: "lastName", regex: /^[A-Za-z]{2,}$/, error: "Last name must be at least 2 letters." },
+                { id: "password", regex: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, error: "Password must be at least 8 characters with uppercase, lowercase, number & special character." },
+                { id: "email", regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, error: "Invalid email format." },
+                { id: "mobile", regex: /^\+?\d{1,3}[-.\s]?\d{10}$/, error: "Invalid mobile number. Use format: +91-1234567890." },
+                { id: "address", regex: /.+/, error: "Address is required." }
+            ];
+
+            return fields.every(({ id, regex, error }) => validateField(id, regex, error));
+        }
+
+        function validateField(id, regex, error) {
+            const input = document.getElementById(id);
+            const errorSpan = document.getElementById(id + "Error");
+            if (!regex.test(input.value.trim())) {
+                errorSpan.textContent = error;
+                return false;
+            }
+            errorSpan.textContent = "";
+            return true;
+        }
+    </script>
+</body>
+</html>
